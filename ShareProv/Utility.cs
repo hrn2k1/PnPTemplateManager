@@ -15,5 +15,5 @@ namespace ShareProv
     }
 
     public delegate void LoggedInEventHandler(object sender, LoginEventArgs e);
-
+    
 }
