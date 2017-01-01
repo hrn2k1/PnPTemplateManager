@@ -19,5 +19,5 @@ namespace ShareProv
     /// <param name="sender"></param>
     /// <param name="e"></param>
     public delegate void LoggedInEventHandler(object sender, LoginEventArgs e);
-
+    
 }

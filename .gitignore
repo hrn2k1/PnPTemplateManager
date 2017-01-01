@@ -1,12 +1,11 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-
+/.vs/*
 /packages
-/PnPTemplateManager.BLL/bin/Debug
-/PnPTemplateManager.BLL/obj/Debug
-/PnPTemplateManager.Web/bin
-/PnPTemplateManager.Web/FileStorage/PnPTemplates
-/PnPTemplateManager.Web/obj/Debug
-/ShareProv/bin/Debug
-/ShareProv/obj/Debug
+/PnPTemplateManager.Web/obj/*
+/PnPTemplateManager.BLL/bin/*
+/ShareProv/bin/*
+/ShareProv/obj/*
+/PnPTemplateManager.Web/bin/*
+/PnPTemplateManager.BLL/obj/*
