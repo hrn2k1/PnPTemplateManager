@@ -18,4 +18,15 @@ namespace PnPTemplateManager.Models
         public string PnPXML { get; set; }
 
     }
+
+    public class ApplyRambollTemplateRequest
+    {
+        public string SiteUrl { get; set; }
+        public string AccessToken { get; set; }
+        public string PnPXML { get; set; }
+
+        public string ProjectNumber { get; set; }
+        public string ApplyComponent { get; set; } 
+
+    }
 }

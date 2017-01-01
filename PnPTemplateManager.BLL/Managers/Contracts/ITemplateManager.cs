@@ -8,6 +8,7 @@ namespace PnPTemplateManager.Managers.Contracts
         List<PnPFileInfo> GetPnPTemplates();
         PnPFileInfo GetPnPTemplateFileFromSite(CreatePnPTemplateRequest request);
         string ApplyPnPTemplateOnSite(ApplyPnPTemplateRequest request);
+        string ApplyRambollTemplateOnSite(ApplyRambollTemplateRequest request);
         string DeletePnPPackageFile(string pnpPackageName);
         string SendPnPPackageFile(string fileName);
         //string CreateSiteAndApplyPnPTemplate(ApplyPnPTemplateRequest request);

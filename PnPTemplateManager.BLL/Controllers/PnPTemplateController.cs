@@ -29,13 +29,16 @@ namespace PnPTemplateManager.Controllers
             return templateManager.GetPnPTemplateFileFromSite(request);
         }
 
-
         [HttpPost, Route("apply")]
         public string ApplyPnPTemplateOnSite(ApplyPnPTemplateRequest request)
         {
             return templateManager.ApplyPnPTemplateOnSite(request);
         }
-
+        [HttpPost, Route("rambollsite")]
+        public string ApplyRambollTemplateOnSite(ApplyRambollTemplateRequest request)
+        {
+            return templateManager.ApplyRambollTemplateOnSite(request);
+        }
         [HttpGet, Route("delete")]
         public string DeletePnPPackageFile([FromUri] string pnpPackageName)
         {

@@ -3,3 +3,10 @@
 ################################################################################
 
 /packages
+/PnPTemplateManager.BLL/bin/Debug
+/PnPTemplateManager.BLL/obj/Debug
+/PnPTemplateManager.Web/bin
+/PnPTemplateManager.Web/FileStorage/PnPTemplates
+/PnPTemplateManager.Web/obj/Debug
+/ShareProv/bin/Debug
+/ShareProv/obj/Debug

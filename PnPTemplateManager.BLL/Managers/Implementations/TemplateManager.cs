@@ -75,13 +75,22 @@ namespace PnPTemplateManager.Managers.Implementations
                     var fileSystemConnector = new FileSystemConnector(pnpTemplatePath, "");
 
                     ptci.PersistBrandingFiles = true;
-                    ptci.PersistPublishingFiles = true;
                     ptci.PersistMultiLanguageResources = true;
+                    //ptci.IncludeAllTermGroups = true;
+                    ptci.IncludeSiteGroups = true;
+                    //ptci.IncludeTermGroupsSecurity = true;
+                    //ptci.IncludeSearchConfiguration = true;
+                    ptci.PersistPublishingFiles = true;
+                    ptci.IncludeNativePublishingFiles = true;
                     ptci.FileConnector = new OpenXMLConnector($"{pnpFileName}.pnp", fileSystemConnector);
 
                     ptci.ProgressDelegate = delegate (String message, Int32 progress, Int32 total)
                     {
                         Console.WriteLine(@"{0:00}/{1:00} - {2}", progress, total, message);
+                    };
+                    ptci.MessagesDelegate = delegate (string message, ProvisioningMessageType messageType)
+                    {
+                        Console.WriteLine(@"{0} - {1}", messageType, message);
                     };
                     ProvisioningTemplate template = new ProvisioningTemplate();
                     try
@@ -175,6 +184,21 @@ namespace PnPTemplateManager.Managers.Implementations
             return pnpFileName;
         }
 
+        private void SetDocumentId(ClientContext context, Web web, string docIdPrefix)
+        {
+            try
+            {
+                var props = web.AllProperties;
+                props["docid_msft_hier_siteprefix"] = docIdPrefix;
+                props["docid_enabled"] = "1";
+                web.Update();
+                context.ExecuteQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Can't update DocumentId prefix {0} to site {1}", docIdPrefix, web.Url);
+            }
+        }
         public string ApplyPnPTemplateOnSite(ApplyPnPTemplateRequest request)
         {
             try
@@ -237,39 +261,125 @@ namespace PnPTemplateManager.Managers.Implementations
                 return "{ \"IsSuccess\": false, \"Message\": \"PnP template apply failed, Error: " + ex.Message + "\" }";
             }
         }
-
-        private void RefineTemplate(ClientContext context, ProvisioningTemplate template, ProvisioningTemplateApplyingInformation ptai)
+        public string ApplyRambollTemplateOnSite(ApplyRambollTemplateRequest request)
         {
-            var web = context.Web;
-            var isSubSite = web.IsSubSite();
-            if (isSubSite)
+            try
             {
-
-                var tokenParser = new TokenParser(web, template);
-                if (template.SiteFields.Any())
+                var pnpPackageName = "RambollProjectTemplate.pnp";
+                ProvisioningTemplate template = null;
+                var ptai = new ProvisioningTemplateApplyingInformation();
+                ptai.ProgressDelegate = delegate (String message, Int32 progress, Int32 total)
                 {
-                    var columnProvisionManager = new SiteColumnProvisionManager();
-                    columnProvisionManager.Provision(web, template, tokenParser, ptai);
-                }
-                if (template.ContentTypes.Any())
+                    Console.WriteLine(@"{0:00}/{1:00} - {2}", progress, total, message);
+                };
+                if (string.IsNullOrEmpty(request.PnPXML)) //normal pnp file flow
                 {
-                    var contentTypeProvisionManager = new ContentTypeProvisionManager();
-                    contentTypeProvisionManager.Provision(web, template, tokenParser, ptai);
-                }
-                template.Files.RemoveAll(
-                    f => f.Src.EndsWith(".master", StringComparison.InvariantCultureIgnoreCase));
-            }
-            var pageLib = context.Web.GetPagesLibrary();
-
-            if (template.Files.Any())
-            {
-                foreach (var file in template.Files)
-                {
-                    if (file.Src.EndsWith(".aspx"))
+                    var storageFile = fileStorageManager.GetFile($"{TemplateFolder}\\{pnpPackageName}");
+                    var pnpTemplatePath = HostingEnvironment.MapPath($"~/{TemplateFolder}");
+                    var tempFile = $"{pnpTemplatePath}\\{pnpPackageName}";
+                    System.IO.File.WriteAllBytes(tempFile, storageFile.Content);
+                    using (
+                        var context = TokenHelper.GetClientContextWithAccessToken(request.SiteUrl, request.AccessToken))
                     {
-                        file.Src = $"{pageLib.Title}\\{file.Src}";
+                        var fileSystemConnector = new FileSystemConnector(pnpTemplatePath, "");
+                        XMLTemplateProvider provider =
+                            new XMLOpenXMLTemplateProvider(new OpenXMLConnector(pnpPackageName, fileSystemConnector));
+
+                        template = provider.GetTemplate(pnpPackageName.Replace(".pnp", ".xml"));
+
+                        template.Connector = provider.Connector;
+
+                        RefineTemplate(context, template, ptai, request.ApplyComponent);
+
+                        context.Web.ApplyProvisioningTemplate(template, ptai);
+                        if (System.IO.File.Exists(tempFile))
+                        {
+                            System.IO.File.Delete(tempFile);
+                        }
+                        return "{ \"IsSuccess\": true, \"Message\": \"PnP template has been applied successfully\" }";
+
                     }
                 }
+                else
+                {
+                    //PNP xml flow
+                    using (Stream s = GenerateStreamFromString(request.PnPXML))
+                    {
+                        var t = new XMLPnPSchemaFormatter();
+                        template = t.ToProvisioningTemplate(s);
+                    }
+
+                    using (var context = TokenHelper.GetClientContextWithAccessToken(request.SiteUrl, request.AccessToken))
+                    {
+                        RefineTemplate(context, template, ptai);
+                        context.Web.ApplyProvisioningTemplate(template, ptai);
+
+                        return "{ \"IsSuccess\": true, \"Message\": \"PnP template has been applied successfully\" }";
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return "{ \"IsSuccess\": false, \"Message\": \"PnP template apply failed, Error: " + ex.Message + "\" }";
+            }
+        }
+
+        private void RefineTemplate(ClientContext context, ProvisioningTemplate template, ProvisioningTemplateApplyingInformation ptai, string type = "NotSet", string docIdPrefix = "")
+        {
+            try
+            {
+
+                switch (type.ToUpper())
+                {
+                    case "PRE":
+                        template.Lists.RemoveAll(x => true);
+                        template.SiteFields.RemoveAll(x => true);
+                        template.ContentTypes.RemoveAll(x => true);
+                        template.Navigation = null;
+                        break;
+                    case "POST":
+                        template.Files.RemoveAll(x => true);
+                        break;
+                }
+                var web = context.Web;
+                if (!string.IsNullOrEmpty(docIdPrefix))
+                    SetDocumentId(context, web, docIdPrefix);
+                var isSubSite = web.IsSubSite();
+                if (isSubSite)
+                {
+
+                    var tokenParser = new TokenParser(web, template);
+                    if (template.SiteFields.Any())
+                    {
+                        var columnProvisionManager = new SiteColumnProvisionManager();
+                        columnProvisionManager.Provision(web, template, tokenParser, ptai);
+                    }
+                    if (template.ContentTypes.Any())
+                    {
+                        var contentTypeProvisionManager = new ContentTypeProvisionManager();
+                        contentTypeProvisionManager.Provision(web, template, tokenParser, ptai);
+                    }
+                    template.Files.RemoveAll(
+                        f => f.Src.EndsWith(".master", StringComparison.InvariantCultureIgnoreCase));
+                }
+                var pageLib = context.Web.GetPagesLibrary();
+
+                if (template.Files.Any())
+                {
+                    foreach (var file in template.Files)
+                    {
+                        if (file.Src.EndsWith(".aspx"))
+                        {
+                            file.Src = $"{pageLib.Title}\\{file.Src}";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

@@ -13,7 +13,11 @@ namespace ShareProv
         public string UserName { get; set; }
         public ClientContext Context { get; set; }
     }
-
+    /// <summary>
+    /// Test
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     public delegate void LoggedInEventHandler(object sender, LoginEventArgs e);
 
 }
