@@ -13,7 +13,7 @@ namespace PnPTemplateManager.Web
     /// Encapsulates all the information from SharePoint.
     /// </summary>
     public abstract class SharePointContext
-    {
+    {//
         public const string SPHostUrlKey = "SPHostUrl";
         public const string SPAppWebUrlKey = "SPAppWebUrl";
         public const string SPLanguageKey = "SPLanguage";
