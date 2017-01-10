@@ -1,0 +1,1628 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Wizdom365Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BA_Action">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteType_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_App">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="SiteTemplatePath" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_Instance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AppId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_InstanceBA_Principal">
+          <Key>
+            <PropertyRef Name="SiteCreatorForInstances_Id" />
+            <PropertyRef Name="SiteCreators_PrincipalId" />
+          </Key>
+          <Property Name="SiteCreatorForInstances_Id" Type="int" Nullable="false" />
+          <Property Name="SiteCreators_PrincipalId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_InstancePrincipal">
+          <Key>
+            <PropertyRef Name="AdministratorForInstances_Id" />
+            <PropertyRef Name="Administrators_PrincipalId" />
+          </Key>
+          <Property Name="AdministratorForInstances_Id" Type="int" Nullable="false" />
+          <Property Name="Administrators_PrincipalId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_Metadata">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ValueDecimal" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MetadataDefinition_Id" Type="int" Nullable="false" />
+          <Property Name="Site_Id" Type="int" Nullable="false" />
+          <Property Name="ValueDate" Type="datetimeoffset" Precision="7" />
+        </EntityType>
+        <EntityType Name="BA_MetadataDefinition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Definition" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="125" Nullable="false" />
+          <Property Name="Required" Type="bit" Nullable="false" />
+          <Property Name="Instance_Id" Type="int" />
+          <Property Name="HideOnDisplayForm" Type="bit" Nullable="false" />
+          <Property Name="HideOnNewForm" Type="bit" Nullable="false" />
+          <Property Name="HideOnEditForm" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_Phase">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SiteTypeId" Type="int" Nullable="false" />
+          <Property Name="BA_PhaseBA_Phase_BA_Phase1_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="BA_PhaseAction">
+          <Key>
+            <PropertyRef Name="PhaseAction_BA_Action_Id" />
+            <PropertyRef Name="PreferedActions_Id" />
+          </Key>
+          <Property Name="PhaseAction_BA_Action_Id" Type="int" Nullable="false" />
+          <Property Name="PreferedActions_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_Principal">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+          </Key>
+          <Property Name="PrincipalId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_PrincipalBA_Site">
+          <Key>
+            <PropertyRef Name="FavouriteBy_PrincipalId" />
+            <PropertyRef Name="FavouriteSites_Id" />
+          </Key>
+          <Property Name="FavouriteBy_PrincipalId" Type="int" Nullable="false" />
+          <Property Name="FavouriteSites_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_Role">
+          <Key>
+            <PropertyRef Name="RepositoryConfigRoleId" />
+          </Key>
+          <Property Name="RepositoryConfigRoleId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="PermissionMask" Type="bigint" Nullable="false" />
+          <Property Name="AllowMultiple" Type="bit" Nullable="false" />
+          <Property Name="AllowPersons" Type="bit" Nullable="false" />
+          <Property Name="AllowGroups" Type="bit" Nullable="false" />
+          <Property Name="CanEditMetadata" Type="bit" Nullable="false" />
+          <Property Name="CanAssignRoles" Type="bit" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="SiteType_Id" Type="int" Nullable="false" />
+          <Property Name="CanReadNoticeboard" Type="bit" Nullable="false" />
+          <Property Name="CanWriteNoticeboard" Type="bit" Nullable="false" />
+          <Property Name="AddCurrentUserInNewForm" Type="bit" Nullable="false" />
+          <Property Name="CanBeDeleted" Type="bit" Nullable="false" />
+          <Property Name="CanBeModified" Type="bit" Nullable="false" />
+          <Property Name="InternalName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Instance_id" Type="int" />
+          <Property Name="HideOnDisplayForm" Type="bit" Nullable="false" />
+          <Property Name="HideOnNewForm" Type="bit" Nullable="false" />
+          <Property Name="HideOnEditForm" Type="bit" Nullable="false" />
+          <Property Name="CanAddToOwnRole" Type="bit" Nullable="false" />
+          <Property Name="CanRemoveFromOwnRole" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_RoleDefaultPrincipals">
+          <Key>
+            <PropertyRef Name="DefaultForRoles_RepositoryConfigRoleId" />
+            <PropertyRef Name="DefaultPrincipals_PrincipalId" />
+          </Key>
+          <Property Name="DefaultForRoles_RepositoryConfigRoleId" Type="int" Nullable="false" />
+          <Property Name="DefaultPrincipals_PrincipalId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_Site">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SharePointWebId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="StatusLastChanged" Type="datetime" Nullable="false" />
+          <Property Name="SiteType_Id" Type="int" Nullable="false" />
+          <Property Name="CurrentPhase_Id" Type="int" Nullable="false" />
+          <Property Name="StatusLastChangedBy_PrincipalId" Type="int" Nullable="false" />
+          <Property Name="PropertyBag" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_SiteHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusSetTo" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Site_Id" Type="int" Nullable="false" />
+          <Property Name="CreatedBy_PrincipalId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_SiteRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Site_Id" Type="int" Nullable="false" />
+          <Property Name="Role_RepositoryConfigRoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_SiteRolePrincipals">
+          <Key>
+            <PropertyRef Name="BA_SiteRoleId" />
+            <PropertyRef Name="BA_PrincipalPrincipalId" />
+          </Key>
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="BA_SiteRoleId" Type="int" Nullable="false" />
+          <Property Name="BA_PrincipalPrincipalId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy_PrincipalId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_SiteType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="InstanceId" Type="int" Nullable="false" />
+          <Property Name="SiteTemplatePath" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="StartPhaseId" Type="int" Nullable="false" />
+          <Property Name="MetadataFormDesign" Type="nvarchar(max)" />
+          <Property Name="ApprovalEnabled" Type="bit" Nullable="false" />
+          <Property Name="AddDefaultAssociatedGroups" Type="bit" Nullable="false" />
+          <Property Name="CreateDefaultAssociatedGroups" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_SiteTypeBA_Principal">
+          <Key>
+            <PropertyRef Name="SiteTypesToApprove_Id" />
+            <PropertyRef Name="Approvers_PrincipalId" />
+          </Key>
+          <Property Name="SiteTypesToApprove_Id" Type="int" Nullable="false" />
+          <Property Name="Approvers_PrincipalId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BA_SiteTypeMetadataDefinitions">
+          <Key>
+            <PropertyRef Name="BA_SiteTypeId" />
+            <PropertyRef Name="BA_MetadataDefinitionId" />
+          </Key>
+          <Property Name="BA_SiteTypeId" Type="int" Nullable="false" />
+          <Property Name="BA_MetadataDefinitionId" Type="int" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AppInstance">
+          <End Role="BA_App" Type="Self.BA_App" Multiplicity="1" />
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_App">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Instance">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_InstanceBA_Principal_BA_Instance">
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="1" />
+          <End Role="BA_InstanceBA_Principal" Type="Self.BA_InstanceBA_Principal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Instance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_InstanceBA_Principal">
+              <PropertyRef Name="SiteCreatorForInstances_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_InstanceBA_Principal_BA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_InstanceBA_Principal" Type="Self.BA_InstanceBA_Principal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_InstanceBA_Principal">
+              <PropertyRef Name="SiteCreators_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition">
+          <End Role="BA_MetadataDefinition" Type="Self.BA_MetadataDefinition" Multiplicity="1" />
+          <End Role="BA_SiteTypeMetadataDefinitions" Type="Self.BA_SiteTypeMetadataDefinitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_MetadataDefinition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteTypeMetadataDefinitions">
+              <PropertyRef Name="BA_MetadataDefinitionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_PhaseBA_Phase">
+          <End Role="BA_Phase" Type="Self.BA_Phase" Multiplicity="0..1" />
+          <End Role="BA_Phase1" Type="Self.BA_Phase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Phase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Phase1">
+              <PropertyRef Name="BA_PhaseBA_Phase_BA_Phase1_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_PrincipalBA_Site_BA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_PrincipalBA_Site" Type="Self.BA_PrincipalBA_Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_PrincipalBA_Site">
+              <PropertyRef Name="FavouriteBy_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_PrincipalBA_Site_BA_Site">
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="1" />
+          <End Role="BA_PrincipalBA_Site" Type="Self.BA_PrincipalBA_Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Site">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_PrincipalBA_Site">
+              <PropertyRef Name="FavouriteSites_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_PrincipalBA_SiteRolePrincipal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_SiteRolePrincipals" Type="Self.BA_SiteRolePrincipals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_SiteRolePrincipals">
+              <PropertyRef Name="BA_PrincipalPrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_RoleDefaultPrincipals_BA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_RoleDefaultPrincipals" Type="Self.BA_RoleDefaultPrincipals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_RoleDefaultPrincipals">
+              <PropertyRef Name="DefaultPrincipals_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_RoleDefaultPrincipals_BA_Role">
+          <End Role="BA_Role" Type="Self.BA_Role" Multiplicity="1" />
+          <End Role="BA_RoleDefaultPrincipals" Type="Self.BA_RoleDefaultPrincipals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Role">
+              <PropertyRef Name="RepositoryConfigRoleId" />
+            </Principal>
+            <Dependent Role="BA_RoleDefaultPrincipals">
+              <PropertyRef Name="DefaultForRoles_RepositoryConfigRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteBA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_Site">
+              <PropertyRef Name="StatusLastChangedBy_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteBA_SiteHistory">
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="1" />
+          <End Role="BA_SiteHistory" Type="Self.BA_SiteHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Site">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteHistory">
+              <PropertyRef Name="Site_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteHistoryBA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_SiteHistory" Type="Self.BA_SiteHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_SiteHistory">
+              <PropertyRef Name="CreatedBy_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteRoleBA_Role">
+          <End Role="BA_Role" Type="Self.BA_Role" Multiplicity="1" />
+          <End Role="BA_SiteRole" Type="Self.BA_SiteRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Role">
+              <PropertyRef Name="RepositoryConfigRoleId" />
+            </Principal>
+            <Dependent Role="BA_SiteRole">
+              <PropertyRef Name="Role_RepositoryConfigRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteRoleBA_Site">
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="1" />
+          <End Role="BA_SiteRole" Type="Self.BA_SiteRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Site">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteRole">
+              <PropertyRef Name="Site_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteRoleBA_SiteRolePrincipal">
+          <End Role="BA_SiteRole" Type="Self.BA_SiteRole" Multiplicity="1" />
+          <End Role="BA_SiteRolePrincipals" Type="Self.BA_SiteRolePrincipals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteRole">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteRolePrincipals">
+              <PropertyRef Name="BA_SiteRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteTypeBA_Principal_BA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_SiteTypeBA_Principal" Type="Self.BA_SiteTypeBA_Principal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_SiteTypeBA_Principal">
+              <PropertyRef Name="Approvers_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteTypeBA_Principal_BA_SiteType">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_SiteTypeBA_Principal" Type="Self.BA_SiteTypeBA_Principal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteTypeBA_Principal">
+              <PropertyRef Name="SiteTypesToApprove_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteTypeBA_SiteTypeMetadataDefinition">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_SiteTypeMetadataDefinitions" Type="Self.BA_SiteTypeMetadataDefinitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteTypeMetadataDefinitions">
+              <PropertyRef Name="BA_SiteTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstanceMetadataDefinition">
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="0..1" />
+          <End Role="BA_MetadataDefinition" Type="Self.BA_MetadataDefinition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Instance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_MetadataDefinition">
+              <PropertyRef Name="Instance_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstanceSiteType">
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="1" />
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Instance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteType">
+              <PropertyRef Name="InstanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstanceUser_Instance">
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="1" />
+          <End Role="BA_InstancePrincipal" Type="Self.BA_InstancePrincipal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Instance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_InstancePrincipal">
+              <PropertyRef Name="AdministratorForInstances_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstanceUser_User">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_InstancePrincipal" Type="Self.BA_InstancePrincipal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_InstancePrincipal">
+              <PropertyRef Name="Administrators_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetadataMetadataDefinition">
+          <End Role="BA_MetadataDefinition" Type="Self.BA_MetadataDefinition" Multiplicity="1" />
+          <End Role="BA_Metadata" Type="Self.BA_Metadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_MetadataDefinition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Metadata">
+              <PropertyRef Name="MetadataDefinition_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhaseAction_BA_Action">
+          <End Role="BA_Action" Type="Self.BA_Action" Multiplicity="1" />
+          <End Role="BA_PhaseAction" Type="Self.BA_PhaseAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Action">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_PhaseAction">
+              <PropertyRef Name="PreferedActions_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhaseAction_BA_Phase">
+          <End Role="BA_Phase" Type="Self.BA_Phase" Multiplicity="1" />
+          <End Role="BA_PhaseAction" Type="Self.BA_PhaseAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Phase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_PhaseAction">
+              <PropertyRef Name="PhaseAction_BA_Action_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrincipalAddedToRoleBy">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_SiteRolePrincipals" Type="Self.BA_SiteRolePrincipals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_SiteRolePrincipals">
+              <PropertyRef Name="CreatedBy_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteMetadata">
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="1" />
+          <End Role="BA_Metadata" Type="Self.BA_Metadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Site">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Metadata">
+              <PropertyRef Name="Site_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitePhase">
+          <End Role="BA_Phase" Type="Self.BA_Phase" Multiplicity="1" />
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Phase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Site">
+              <PropertyRef Name="CurrentPhase_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteSiteType">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Site">
+              <PropertyRef Name="SiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteTypeAction">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_Action" Type="Self.BA_Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Action">
+              <PropertyRef Name="SiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteTypePhase">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_Phase" Type="Self.BA_Phase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Phase">
+              <PropertyRef Name="SiteTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteTypeRole">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_Role" Type="Self.BA_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Role">
+              <PropertyRef Name="SiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Wizdom365ModelStoreContainer">
+          <EntitySet Name="BA_Action" EntityType="Self.BA_Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_App" EntityType="Self.BA_App" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_Instance" EntityType="Self.BA_Instance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_InstanceBA_Principal" EntityType="Self.BA_InstanceBA_Principal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_InstancePrincipal" EntityType="Self.BA_InstancePrincipal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_Metadata" EntityType="Self.BA_Metadata" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_MetadataDefinition" EntityType="Self.BA_MetadataDefinition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_Phase" EntityType="Self.BA_Phase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_PhaseAction" EntityType="Self.BA_PhaseAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_Principal" EntityType="Self.BA_Principal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_PrincipalBA_Site" EntityType="Self.BA_PrincipalBA_Site" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_Role" EntityType="Self.BA_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_RoleDefaultPrincipals" EntityType="Self.BA_RoleDefaultPrincipals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_Site" EntityType="Self.BA_Site" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_SiteHistory" EntityType="Self.BA_SiteHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_SiteRole" EntityType="Self.BA_SiteRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_SiteRolePrincipals" EntityType="Self.BA_SiteRolePrincipals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_SiteType" EntityType="Self.BA_SiteType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_SiteTypeBA_Principal" EntityType="Self.BA_SiteTypeBA_Principal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA_SiteTypeMetadataDefinitions" EntityType="Self.BA_SiteTypeMetadataDefinitions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AppInstance" Association="Self.FK_AppInstance">
+            <End Role="BA_App" EntitySet="BA_App" />
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_InstanceBA_Principal_BA_Instance" Association="Self.FK_BA_InstanceBA_Principal_BA_Instance">
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+            <End Role="BA_InstanceBA_Principal" EntitySet="BA_InstanceBA_Principal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_InstanceBA_Principal_BA_Principal" Association="Self.FK_BA_InstanceBA_Principal_BA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_InstanceBA_Principal" EntitySet="BA_InstanceBA_Principal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition" Association="Self.FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition">
+            <End Role="BA_MetadataDefinition" EntitySet="BA_MetadataDefinition" />
+            <End Role="BA_SiteTypeMetadataDefinitions" EntitySet="BA_SiteTypeMetadataDefinitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_PhaseBA_Phase" Association="Self.FK_BA_PhaseBA_Phase">
+            <End Role="BA_Phase" EntitySet="BA_Phase" />
+            <End Role="BA_Phase1" EntitySet="BA_Phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_PrincipalBA_Site_BA_Principal" Association="Self.FK_BA_PrincipalBA_Site_BA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_PrincipalBA_Site" EntitySet="BA_PrincipalBA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_PrincipalBA_Site_BA_Site" Association="Self.FK_BA_PrincipalBA_Site_BA_Site">
+            <End Role="BA_Site" EntitySet="BA_Site" />
+            <End Role="BA_PrincipalBA_Site" EntitySet="BA_PrincipalBA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_PrincipalBA_SiteRolePrincipal" Association="Self.FK_BA_PrincipalBA_SiteRolePrincipal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_SiteRolePrincipals" EntitySet="BA_SiteRolePrincipals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_RoleDefaultPrincipals_BA_Principal" Association="Self.FK_BA_RoleDefaultPrincipals_BA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_RoleDefaultPrincipals" EntitySet="BA_RoleDefaultPrincipals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_RoleDefaultPrincipals_BA_Role" Association="Self.FK_BA_RoleDefaultPrincipals_BA_Role">
+            <End Role="BA_Role" EntitySet="BA_Role" />
+            <End Role="BA_RoleDefaultPrincipals" EntitySet="BA_RoleDefaultPrincipals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteBA_Principal" Association="Self.FK_BA_SiteBA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_Site" EntitySet="BA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteBA_SiteHistory" Association="Self.FK_BA_SiteBA_SiteHistory">
+            <End Role="BA_Site" EntitySet="BA_Site" />
+            <End Role="BA_SiteHistory" EntitySet="BA_SiteHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteHistoryBA_Principal" Association="Self.FK_BA_SiteHistoryBA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_SiteHistory" EntitySet="BA_SiteHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteRoleBA_Role" Association="Self.FK_BA_SiteRoleBA_Role">
+            <End Role="BA_Role" EntitySet="BA_Role" />
+            <End Role="BA_SiteRole" EntitySet="BA_SiteRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteRoleBA_Site" Association="Self.FK_BA_SiteRoleBA_Site">
+            <End Role="BA_Site" EntitySet="BA_Site" />
+            <End Role="BA_SiteRole" EntitySet="BA_SiteRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteRoleBA_SiteRolePrincipal" Association="Self.FK_BA_SiteRoleBA_SiteRolePrincipal">
+            <End Role="BA_SiteRole" EntitySet="BA_SiteRole" />
+            <End Role="BA_SiteRolePrincipals" EntitySet="BA_SiteRolePrincipals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteTypeBA_Principal_BA_Principal" Association="Self.FK_BA_SiteTypeBA_Principal_BA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_SiteTypeBA_Principal" EntitySet="BA_SiteTypeBA_Principal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteTypeBA_Principal_BA_SiteType" Association="Self.FK_BA_SiteTypeBA_Principal_BA_SiteType">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_SiteTypeBA_Principal" EntitySet="BA_SiteTypeBA_Principal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteTypeBA_SiteTypeMetadataDefinition" Association="Self.FK_BA_SiteTypeBA_SiteTypeMetadataDefinition">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_SiteTypeMetadataDefinitions" EntitySet="BA_SiteTypeMetadataDefinitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstanceMetadataDefinition" Association="Self.FK_InstanceMetadataDefinition">
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+            <End Role="BA_MetadataDefinition" EntitySet="BA_MetadataDefinition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstanceSiteType" Association="Self.FK_InstanceSiteType">
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstanceUser_Instance" Association="Self.FK_InstanceUser_Instance">
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+            <End Role="BA_InstancePrincipal" EntitySet="BA_InstancePrincipal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstanceUser_User" Association="Self.FK_InstanceUser_User">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_InstancePrincipal" EntitySet="BA_InstancePrincipal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetadataMetadataDefinition" Association="Self.FK_MetadataMetadataDefinition">
+            <End Role="BA_MetadataDefinition" EntitySet="BA_MetadataDefinition" />
+            <End Role="BA_Metadata" EntitySet="BA_Metadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhaseAction_BA_Action" Association="Self.FK_PhaseAction_BA_Action">
+            <End Role="BA_Action" EntitySet="BA_Action" />
+            <End Role="BA_PhaseAction" EntitySet="BA_PhaseAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhaseAction_BA_Phase" Association="Self.FK_PhaseAction_BA_Phase">
+            <End Role="BA_Phase" EntitySet="BA_Phase" />
+            <End Role="BA_PhaseAction" EntitySet="BA_PhaseAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrincipalAddedToRoleBy" Association="Self.FK_PrincipalAddedToRoleBy">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_SiteRolePrincipals" EntitySet="BA_SiteRolePrincipals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteMetadata" Association="Self.FK_SiteMetadata">
+            <End Role="BA_Site" EntitySet="BA_Site" />
+            <End Role="BA_Metadata" EntitySet="BA_Metadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitePhase" Association="Self.FK_SitePhase">
+            <End Role="BA_Phase" EntitySet="BA_Phase" />
+            <End Role="BA_Site" EntitySet="BA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteSiteType" Association="Self.FK_SiteSiteType">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_Site" EntitySet="BA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteTypeAction" Association="Self.FK_SiteTypeAction">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_Action" EntitySet="BA_Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteTypePhase" Association="Self.FK_SiteTypePhase">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_Phase" EntitySet="BA_Phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteTypeRole" Association="Self.FK_SiteTypeRole">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_Role" EntitySet="BA_Role" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Wizdom365Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BA_Action">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteType_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BA_SiteType" Relationship="Self.FK_SiteTypeAction" FromRole="BA_Action" ToRole="BA_SiteType" />
+          <NavigationProperty Name="BA_Phase" Relationship="Self.BA_PhaseAction" FromRole="BA_Action" ToRole="BA_Phase" />
+        </EntityType>
+        <EntityType Name="BA_App">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SiteTemplatePath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BA_Instance" Relationship="Self.FK_AppInstance" FromRole="BA_App" ToRole="BA_Instance" />
+        </EntityType>
+        <EntityType Name="BA_Instance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AppId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BA_App" Relationship="Self.FK_AppInstance" FromRole="BA_Instance" ToRole="BA_App" />
+          <NavigationProperty Name="BA_MetadataDefinition" Relationship="Self.FK_InstanceMetadataDefinition" FromRole="BA_Instance" ToRole="BA_MetadataDefinition" />
+          <NavigationProperty Name="BA_SiteType" Relationship="Self.FK_InstanceSiteType" FromRole="BA_Instance" ToRole="BA_SiteType" />
+          <NavigationProperty Name="BA_Principal" Relationship="Self.BA_InstanceBA_Principal" FromRole="BA_Instance" ToRole="BA_Principal" />
+          <NavigationProperty Name="BA_Principal1" Relationship="Self.BA_InstancePrincipal" FromRole="BA_Instance" ToRole="BA_Principal" />
+        </EntityType>
+        <EntityType Name="BA_Metadata">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ValueDecimal" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MetadataDefinition_Id" Type="Int32" Nullable="false" />
+          <Property Name="Site_Id" Type="Int32" Nullable="false" />
+          <Property Name="ValueDate" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="BA_MetadataDefinition" Relationship="Self.FK_MetadataMetadataDefinition" FromRole="BA_Metadata" ToRole="BA_MetadataDefinition" />
+          <NavigationProperty Name="BA_Site" Relationship="Self.FK_SiteMetadata" FromRole="BA_Metadata" ToRole="BA_Site" />
+        </EntityType>
+        <EntityType Name="BA_MetadataDefinition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Definition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="125" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Required" Type="Boolean" Nullable="false" />
+          <Property Name="Instance_Id" Type="Int32" />
+          <Property Name="HideOnDisplayForm" Type="Boolean" Nullable="false" />
+          <Property Name="HideOnNewForm" Type="Boolean" Nullable="false" />
+          <Property Name="HideOnEditForm" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BA_Instance" Relationship="Self.FK_InstanceMetadataDefinition" FromRole="BA_MetadataDefinition" ToRole="BA_Instance" />
+          <NavigationProperty Name="BA_Metadata" Relationship="Self.FK_MetadataMetadataDefinition" FromRole="BA_MetadataDefinition" ToRole="BA_Metadata" />
+          <NavigationProperty Name="BA_SiteTypeMetadataDefinitions" Relationship="Self.FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition" FromRole="BA_MetadataDefinition" ToRole="BA_SiteTypeMetadataDefinitions" />
+        </EntityType>
+        <EntityType Name="BA_Phase">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SiteTypeId" Type="Int32" Nullable="false" />
+          <Property Name="BA_PhaseBA_Phase_BA_Phase1_Id" Type="Int32" />
+          <NavigationProperty Name="BA_Phase1" Relationship="Self.FK_BA_PhaseBA_Phase" FromRole="BA_Phase" ToRole="BA_Phase1" />
+          <NavigationProperty Name="BA_Phase2" Relationship="Self.FK_BA_PhaseBA_Phase" FromRole="BA_Phase1" ToRole="BA_Phase" />
+          <NavigationProperty Name="BA_Site" Relationship="Self.FK_SitePhase" FromRole="BA_Phase" ToRole="BA_Site" />
+          <NavigationProperty Name="BA_SiteType" Relationship="Self.FK_SiteTypePhase" FromRole="BA_Phase" ToRole="BA_SiteType" />
+          <NavigationProperty Name="BA_Action" Relationship="Self.BA_PhaseAction" FromRole="BA_Phase" ToRole="BA_Action" />
+        </EntityType>
+        <EntityType Name="BA_Principal">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+          </Key>
+          <Property Name="PrincipalId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BA_SiteRolePrincipals" Relationship="Self.FK_BA_PrincipalBA_SiteRolePrincipal" FromRole="BA_Principal" ToRole="BA_SiteRolePrincipals" />
+          <NavigationProperty Name="BA_Site" Relationship="Self.FK_BA_SiteBA_Principal" FromRole="BA_Principal" ToRole="BA_Site" />
+          <NavigationProperty Name="BA_SiteHistory" Relationship="Self.FK_BA_SiteHistoryBA_Principal" FromRole="BA_Principal" ToRole="BA_SiteHistory" />
+          <NavigationProperty Name="BA_SiteRolePrincipals1" Relationship="Self.FK_PrincipalAddedToRoleBy" FromRole="BA_Principal" ToRole="BA_SiteRolePrincipals" />
+          <NavigationProperty Name="BA_Instance" Relationship="Self.BA_InstanceBA_Principal" FromRole="BA_Principal" ToRole="BA_Instance" />
+          <NavigationProperty Name="BA_Instance1" Relationship="Self.BA_InstancePrincipal" FromRole="BA_Principal" ToRole="BA_Instance" />
+          <NavigationProperty Name="BA_Site1" Relationship="Self.BA_PrincipalBA_Site" FromRole="BA_Principal" ToRole="BA_Site" />
+          <NavigationProperty Name="BA_Role" Relationship="Self.BA_RoleDefaultPrincipals" FromRole="BA_Principal" ToRole="BA_Role" />
+          <NavigationProperty Name="BA_SiteType" Relationship="Self.BA_SiteTypeBA_Principal" FromRole="BA_Principal" ToRole="BA_SiteType" />
+        </EntityType>
+        <EntityType Name="BA_Role">
+          <Key>
+            <PropertyRef Name="RepositoryConfigRoleId" />
+          </Key>
+          <Property Name="RepositoryConfigRoleId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PermissionMask" Type="Int64" Nullable="false" />
+          <Property Name="AllowMultiple" Type="Boolean" Nullable="false" />
+          <Property Name="AllowPersons" Type="Boolean" Nullable="false" />
+          <Property Name="AllowGroups" Type="Boolean" Nullable="false" />
+          <Property Name="CanEditMetadata" Type="Boolean" Nullable="false" />
+          <Property Name="CanAssignRoles" Type="Boolean" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="SiteType_Id" Type="Int32" Nullable="false" />
+          <Property Name="CanReadNoticeboard" Type="Boolean" Nullable="false" />
+          <Property Name="CanWriteNoticeboard" Type="Boolean" Nullable="false" />
+          <Property Name="AddCurrentUserInNewForm" Type="Boolean" Nullable="false" />
+          <Property Name="CanBeDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CanBeModified" Type="Boolean" Nullable="false" />
+          <Property Name="InternalName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Instance_id" Type="Int32" />
+          <Property Name="HideOnDisplayForm" Type="Boolean" Nullable="false" />
+          <Property Name="HideOnNewForm" Type="Boolean" Nullable="false" />
+          <Property Name="HideOnEditForm" Type="Boolean" Nullable="false" />
+          <Property Name="CanAddToOwnRole" Type="Boolean" Nullable="false" />
+          <Property Name="CanRemoveFromOwnRole" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BA_SiteRole" Relationship="Self.FK_BA_SiteRoleBA_Role" FromRole="BA_Role" ToRole="BA_SiteRole" />
+          <NavigationProperty Name="BA_SiteType" Relationship="Self.FK_SiteTypeRole" FromRole="BA_Role" ToRole="BA_SiteType" />
+          <NavigationProperty Name="BA_Principal" Relationship="Self.BA_RoleDefaultPrincipals" FromRole="BA_Role" ToRole="BA_Principal" />
+        </EntityType>
+        <EntityType Name="BA_Site">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SharePointWebId" Type="Guid" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="StatusLastChanged" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SiteType_Id" Type="Int32" Nullable="false" />
+          <Property Name="CurrentPhase_Id" Type="Int32" Nullable="false" />
+          <Property Name="StatusLastChangedBy_PrincipalId" Type="Int32" Nullable="false" />
+          <Property Name="PropertyBag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BA_Metadata" Relationship="Self.FK_SiteMetadata" FromRole="BA_Site" ToRole="BA_Metadata" />
+          <NavigationProperty Name="BA_Phase" Relationship="Self.FK_SitePhase" FromRole="BA_Site" ToRole="BA_Phase" />
+          <NavigationProperty Name="BA_Principal" Relationship="Self.FK_BA_SiteBA_Principal" FromRole="BA_Site" ToRole="BA_Principal" />
+          <NavigationProperty Name="BA_SiteHistory" Relationship="Self.FK_BA_SiteBA_SiteHistory" FromRole="BA_Site" ToRole="BA_SiteHistory" />
+          <NavigationProperty Name="BA_SiteRole" Relationship="Self.FK_BA_SiteRoleBA_Site" FromRole="BA_Site" ToRole="BA_SiteRole" />
+          <NavigationProperty Name="BA_SiteType" Relationship="Self.FK_SiteSiteType" FromRole="BA_Site" ToRole="BA_SiteType" />
+          <NavigationProperty Name="BA_Principal1" Relationship="Self.BA_PrincipalBA_Site" FromRole="BA_Site" ToRole="BA_Principal" />
+        </EntityType>
+        <EntityType Name="BA_SiteHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusSetTo" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Site_Id" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy_PrincipalId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BA_Principal" Relationship="Self.FK_BA_SiteHistoryBA_Principal" FromRole="BA_SiteHistory" ToRole="BA_Principal" />
+          <NavigationProperty Name="BA_Site" Relationship="Self.FK_BA_SiteBA_SiteHistory" FromRole="BA_SiteHistory" ToRole="BA_Site" />
+        </EntityType>
+        <EntityType Name="BA_SiteRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Site_Id" Type="Int32" Nullable="false" />
+          <Property Name="Role_RepositoryConfigRoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BA_Role" Relationship="Self.FK_BA_SiteRoleBA_Role" FromRole="BA_SiteRole" ToRole="BA_Role" />
+          <NavigationProperty Name="BA_Site" Relationship="Self.FK_BA_SiteRoleBA_Site" FromRole="BA_SiteRole" ToRole="BA_Site" />
+          <NavigationProperty Name="BA_SiteRolePrincipals" Relationship="Self.FK_BA_SiteRoleBA_SiteRolePrincipal" FromRole="BA_SiteRole" ToRole="BA_SiteRolePrincipals" />
+        </EntityType>
+        <EntityType Name="BA_SiteRolePrincipals">
+          <Key>
+            <PropertyRef Name="BA_SiteRoleId" />
+            <PropertyRef Name="BA_PrincipalPrincipalId" />
+          </Key>
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BA_SiteRoleId" Type="Int32" Nullable="false" />
+          <Property Name="BA_PrincipalPrincipalId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy_PrincipalId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BA_Principal" Relationship="Self.FK_BA_PrincipalBA_SiteRolePrincipal" FromRole="BA_SiteRolePrincipals" ToRole="BA_Principal" />
+          <NavigationProperty Name="BA_Principal1" Relationship="Self.FK_PrincipalAddedToRoleBy" FromRole="BA_SiteRolePrincipals" ToRole="BA_Principal" />
+          <NavigationProperty Name="BA_SiteRole" Relationship="Self.FK_BA_SiteRoleBA_SiteRolePrincipal" FromRole="BA_SiteRolePrincipals" ToRole="BA_SiteRole" />
+        </EntityType>
+        <EntityType Name="BA_SiteType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InstanceId" Type="Int32" Nullable="false" />
+          <Property Name="SiteTemplatePath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartPhaseId" Type="Int32" Nullable="false" />
+          <Property Name="MetadataFormDesign" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovalEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AddDefaultAssociatedGroups" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDefaultAssociatedGroups" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BA_Action" Relationship="Self.FK_SiteTypeAction" FromRole="BA_SiteType" ToRole="BA_Action" />
+          <NavigationProperty Name="BA_Instance" Relationship="Self.FK_InstanceSiteType" FromRole="BA_SiteType" ToRole="BA_Instance" />
+          <NavigationProperty Name="BA_Phase" Relationship="Self.FK_SiteTypePhase" FromRole="BA_SiteType" ToRole="BA_Phase" />
+          <NavigationProperty Name="BA_Role" Relationship="Self.FK_SiteTypeRole" FromRole="BA_SiteType" ToRole="BA_Role" />
+          <NavigationProperty Name="BA_Site" Relationship="Self.FK_SiteSiteType" FromRole="BA_SiteType" ToRole="BA_Site" />
+          <NavigationProperty Name="BA_SiteTypeMetadataDefinitions" Relationship="Self.FK_BA_SiteTypeBA_SiteTypeMetadataDefinition" FromRole="BA_SiteType" ToRole="BA_SiteTypeMetadataDefinitions" />
+          <NavigationProperty Name="BA_Principal" Relationship="Self.BA_SiteTypeBA_Principal" FromRole="BA_SiteType" ToRole="BA_Principal" />
+        </EntityType>
+        <EntityType Name="BA_SiteTypeMetadataDefinitions">
+          <Key>
+            <PropertyRef Name="BA_SiteTypeId" />
+            <PropertyRef Name="BA_MetadataDefinitionId" />
+          </Key>
+          <Property Name="BA_SiteTypeId" Type="Int32" Nullable="false" />
+          <Property Name="BA_MetadataDefinitionId" Type="Int32" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BA_MetadataDefinition" Relationship="Self.FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition" FromRole="BA_SiteTypeMetadataDefinitions" ToRole="BA_MetadataDefinition" />
+          <NavigationProperty Name="BA_SiteType" Relationship="Self.FK_BA_SiteTypeBA_SiteTypeMetadataDefinition" FromRole="BA_SiteTypeMetadataDefinitions" ToRole="BA_SiteType" />
+        </EntityType>
+        <Association Name="FK_SiteTypeAction">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_Action" Type="Self.BA_Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Action">
+              <PropertyRef Name="SiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppInstance">
+          <End Role="BA_App" Type="Self.BA_App" Multiplicity="1" />
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_App">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Instance">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstanceMetadataDefinition">
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="0..1" />
+          <End Role="BA_MetadataDefinition" Type="Self.BA_MetadataDefinition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Instance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_MetadataDefinition">
+              <PropertyRef Name="Instance_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstanceSiteType">
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="1" />
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Instance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteType">
+              <PropertyRef Name="InstanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetadataMetadataDefinition">
+          <End Role="BA_MetadataDefinition" Type="Self.BA_MetadataDefinition" Multiplicity="1" />
+          <End Role="BA_Metadata" Type="Self.BA_Metadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_MetadataDefinition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Metadata">
+              <PropertyRef Name="MetadataDefinition_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteMetadata">
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="1" />
+          <End Role="BA_Metadata" Type="Self.BA_Metadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Site">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Metadata">
+              <PropertyRef Name="Site_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition">
+          <End Role="BA_MetadataDefinition" Type="Self.BA_MetadataDefinition" Multiplicity="1" />
+          <End Role="BA_SiteTypeMetadataDefinitions" Type="Self.BA_SiteTypeMetadataDefinitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_MetadataDefinition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteTypeMetadataDefinitions">
+              <PropertyRef Name="BA_MetadataDefinitionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_PhaseBA_Phase">
+          <End Role="BA_Phase" Type="Self.BA_Phase" Multiplicity="0..1" />
+          <End Role="BA_Phase1" Type="Self.BA_Phase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Phase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Phase1">
+              <PropertyRef Name="BA_PhaseBA_Phase_BA_Phase1_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitePhase">
+          <End Role="BA_Phase" Type="Self.BA_Phase" Multiplicity="1" />
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Phase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Site">
+              <PropertyRef Name="CurrentPhase_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteTypePhase">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_Phase" Type="Self.BA_Phase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Phase">
+              <PropertyRef Name="SiteTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_PrincipalBA_SiteRolePrincipal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_SiteRolePrincipals" Type="Self.BA_SiteRolePrincipals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_SiteRolePrincipals">
+              <PropertyRef Name="BA_PrincipalPrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteBA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_Site">
+              <PropertyRef Name="StatusLastChangedBy_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteHistoryBA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_SiteHistory" Type="Self.BA_SiteHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_SiteHistory">
+              <PropertyRef Name="CreatedBy_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrincipalAddedToRoleBy">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="1" />
+          <End Role="BA_SiteRolePrincipals" Type="Self.BA_SiteRolePrincipals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="BA_SiteRolePrincipals">
+              <PropertyRef Name="CreatedBy_PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteRoleBA_Role">
+          <End Role="BA_Role" Type="Self.BA_Role" Multiplicity="1" />
+          <End Role="BA_SiteRole" Type="Self.BA_SiteRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Role">
+              <PropertyRef Name="RepositoryConfigRoleId" />
+            </Principal>
+            <Dependent Role="BA_SiteRole">
+              <PropertyRef Name="Role_RepositoryConfigRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteTypeRole">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_Role" Type="Self.BA_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Role">
+              <PropertyRef Name="SiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteBA_SiteHistory">
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="1" />
+          <End Role="BA_SiteHistory" Type="Self.BA_SiteHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Site">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteHistory">
+              <PropertyRef Name="Site_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteRoleBA_Site">
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="1" />
+          <End Role="BA_SiteRole" Type="Self.BA_SiteRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_Site">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteRole">
+              <PropertyRef Name="Site_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteSiteType">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_Site">
+              <PropertyRef Name="SiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteRoleBA_SiteRolePrincipal">
+          <End Role="BA_SiteRole" Type="Self.BA_SiteRole" Multiplicity="1" />
+          <End Role="BA_SiteRolePrincipals" Type="Self.BA_SiteRolePrincipals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteRole">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteRolePrincipals">
+              <PropertyRef Name="BA_SiteRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BA_SiteTypeBA_SiteTypeMetadataDefinition">
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="1" />
+          <End Role="BA_SiteTypeMetadataDefinitions" Type="Self.BA_SiteTypeMetadataDefinitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BA_SiteType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BA_SiteTypeMetadataDefinitions">
+              <PropertyRef Name="BA_SiteTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BA_InstanceBA_Principal">
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="*" />
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="*" />
+        </Association>
+        <Association Name="BA_InstancePrincipal">
+          <End Role="BA_Instance" Type="Self.BA_Instance" Multiplicity="*" />
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="*" />
+        </Association>
+        <Association Name="BA_PhaseAction">
+          <End Role="BA_Action" Type="Self.BA_Action" Multiplicity="*" />
+          <End Role="BA_Phase" Type="Self.BA_Phase" Multiplicity="*" />
+        </Association>
+        <Association Name="BA_PrincipalBA_Site">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="*" />
+          <End Role="BA_Site" Type="Self.BA_Site" Multiplicity="*" />
+        </Association>
+        <Association Name="BA_RoleDefaultPrincipals">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="*" />
+          <End Role="BA_Role" Type="Self.BA_Role" Multiplicity="*" />
+        </Association>
+        <Association Name="BA_SiteTypeBA_Principal">
+          <End Role="BA_Principal" Type="Self.BA_Principal" Multiplicity="*" />
+          <End Role="BA_SiteType" Type="Self.BA_SiteType" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Wizdom365X2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BA_Action" EntityType="Self.BA_Action" />
+          <EntitySet Name="BA_App" EntityType="Self.BA_App" />
+          <EntitySet Name="BA_Instance" EntityType="Self.BA_Instance" />
+          <EntitySet Name="BA_Metadata" EntityType="Self.BA_Metadata" />
+          <EntitySet Name="BA_MetadataDefinition" EntityType="Self.BA_MetadataDefinition" />
+          <EntitySet Name="BA_Phase" EntityType="Self.BA_Phase" />
+          <EntitySet Name="BA_Principal" EntityType="Self.BA_Principal" />
+          <EntitySet Name="BA_Role" EntityType="Self.BA_Role" />
+          <EntitySet Name="BA_Site" EntityType="Self.BA_Site" />
+          <EntitySet Name="BA_SiteHistory" EntityType="Self.BA_SiteHistory" />
+          <EntitySet Name="BA_SiteRole" EntityType="Self.BA_SiteRole" />
+          <EntitySet Name="BA_SiteRolePrincipals" EntityType="Self.BA_SiteRolePrincipals" />
+          <EntitySet Name="BA_SiteType" EntityType="Self.BA_SiteType" />
+          <EntitySet Name="BA_SiteTypeMetadataDefinitions" EntityType="Self.BA_SiteTypeMetadataDefinitions" />
+          <AssociationSet Name="FK_SiteTypeAction" Association="Self.FK_SiteTypeAction">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_Action" EntitySet="BA_Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppInstance" Association="Self.FK_AppInstance">
+            <End Role="BA_App" EntitySet="BA_App" />
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstanceMetadataDefinition" Association="Self.FK_InstanceMetadataDefinition">
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+            <End Role="BA_MetadataDefinition" EntitySet="BA_MetadataDefinition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstanceSiteType" Association="Self.FK_InstanceSiteType">
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetadataMetadataDefinition" Association="Self.FK_MetadataMetadataDefinition">
+            <End Role="BA_MetadataDefinition" EntitySet="BA_MetadataDefinition" />
+            <End Role="BA_Metadata" EntitySet="BA_Metadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteMetadata" Association="Self.FK_SiteMetadata">
+            <End Role="BA_Site" EntitySet="BA_Site" />
+            <End Role="BA_Metadata" EntitySet="BA_Metadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition" Association="Self.FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition">
+            <End Role="BA_MetadataDefinition" EntitySet="BA_MetadataDefinition" />
+            <End Role="BA_SiteTypeMetadataDefinitions" EntitySet="BA_SiteTypeMetadataDefinitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_PhaseBA_Phase" Association="Self.FK_BA_PhaseBA_Phase">
+            <End Role="BA_Phase" EntitySet="BA_Phase" />
+            <End Role="BA_Phase1" EntitySet="BA_Phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitePhase" Association="Self.FK_SitePhase">
+            <End Role="BA_Phase" EntitySet="BA_Phase" />
+            <End Role="BA_Site" EntitySet="BA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteTypePhase" Association="Self.FK_SiteTypePhase">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_Phase" EntitySet="BA_Phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_PrincipalBA_SiteRolePrincipal" Association="Self.FK_BA_PrincipalBA_SiteRolePrincipal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_SiteRolePrincipals" EntitySet="BA_SiteRolePrincipals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteBA_Principal" Association="Self.FK_BA_SiteBA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_Site" EntitySet="BA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteHistoryBA_Principal" Association="Self.FK_BA_SiteHistoryBA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_SiteHistory" EntitySet="BA_SiteHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrincipalAddedToRoleBy" Association="Self.FK_PrincipalAddedToRoleBy">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_SiteRolePrincipals" EntitySet="BA_SiteRolePrincipals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteRoleBA_Role" Association="Self.FK_BA_SiteRoleBA_Role">
+            <End Role="BA_Role" EntitySet="BA_Role" />
+            <End Role="BA_SiteRole" EntitySet="BA_SiteRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteTypeRole" Association="Self.FK_SiteTypeRole">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_Role" EntitySet="BA_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteBA_SiteHistory" Association="Self.FK_BA_SiteBA_SiteHistory">
+            <End Role="BA_Site" EntitySet="BA_Site" />
+            <End Role="BA_SiteHistory" EntitySet="BA_SiteHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteRoleBA_Site" Association="Self.FK_BA_SiteRoleBA_Site">
+            <End Role="BA_Site" EntitySet="BA_Site" />
+            <End Role="BA_SiteRole" EntitySet="BA_SiteRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteSiteType" Association="Self.FK_SiteSiteType">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_Site" EntitySet="BA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteRoleBA_SiteRolePrincipal" Association="Self.FK_BA_SiteRoleBA_SiteRolePrincipal">
+            <End Role="BA_SiteRole" EntitySet="BA_SiteRole" />
+            <End Role="BA_SiteRolePrincipals" EntitySet="BA_SiteRolePrincipals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BA_SiteTypeBA_SiteTypeMetadataDefinition" Association="Self.FK_BA_SiteTypeBA_SiteTypeMetadataDefinition">
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+            <End Role="BA_SiteTypeMetadataDefinitions" EntitySet="BA_SiteTypeMetadataDefinitions" />
+          </AssociationSet>
+          <AssociationSet Name="BA_InstanceBA_Principal" Association="Self.BA_InstanceBA_Principal">
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+          </AssociationSet>
+          <AssociationSet Name="BA_InstancePrincipal" Association="Self.BA_InstancePrincipal">
+            <End Role="BA_Instance" EntitySet="BA_Instance" />
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+          </AssociationSet>
+          <AssociationSet Name="BA_PhaseAction" Association="Self.BA_PhaseAction">
+            <End Role="BA_Action" EntitySet="BA_Action" />
+            <End Role="BA_Phase" EntitySet="BA_Phase" />
+          </AssociationSet>
+          <AssociationSet Name="BA_PrincipalBA_Site" Association="Self.BA_PrincipalBA_Site">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_Site" EntitySet="BA_Site" />
+          </AssociationSet>
+          <AssociationSet Name="BA_RoleDefaultPrincipals" Association="Self.BA_RoleDefaultPrincipals">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_Role" EntitySet="BA_Role" />
+          </AssociationSet>
+          <AssociationSet Name="BA_SiteTypeBA_Principal" Association="Self.BA_SiteTypeBA_Principal">
+            <End Role="BA_Principal" EntitySet="BA_Principal" />
+            <End Role="BA_SiteType" EntitySet="BA_SiteType" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Wizdom365ModelStoreContainer" CdmEntityContainer="Wizdom365X2Entities">
+          <EntitySetMapping Name="BA_Action">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_Action">
+              <MappingFragment StoreEntitySet="BA_Action">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SiteType_Id" ColumnName="SiteType_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_App">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_App">
+              <MappingFragment StoreEntitySet="BA_App">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SiteTemplatePath" ColumnName="SiteTemplatePath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_Instance">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_Instance">
+              <MappingFragment StoreEntitySet="BA_Instance">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_Metadata">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_Metadata">
+              <MappingFragment StoreEntitySet="BA_Metadata">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ValueDecimal" ColumnName="ValueDecimal" />
+                <ScalarProperty Name="MetadataDefinition_Id" ColumnName="MetadataDefinition_Id" />
+                <ScalarProperty Name="Site_Id" ColumnName="Site_Id" />
+                <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_MetadataDefinition">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_MetadataDefinition">
+              <MappingFragment StoreEntitySet="BA_MetadataDefinition">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Definition" ColumnName="Definition" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Required" ColumnName="Required" />
+                <ScalarProperty Name="Instance_Id" ColumnName="Instance_Id" />
+                <ScalarProperty Name="HideOnDisplayForm" ColumnName="HideOnDisplayForm" />
+                <ScalarProperty Name="HideOnNewForm" ColumnName="HideOnNewForm" />
+                <ScalarProperty Name="HideOnEditForm" ColumnName="HideOnEditForm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_Phase">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_Phase">
+              <MappingFragment StoreEntitySet="BA_Phase">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SiteTypeId" ColumnName="SiteTypeId" />
+                <ScalarProperty Name="BA_PhaseBA_Phase_BA_Phase1_Id" ColumnName="BA_PhaseBA_Phase_BA_Phase1_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_Principal">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_Principal">
+              <MappingFragment StoreEntitySet="BA_Principal">
+                <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_Role">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_Role">
+              <MappingFragment StoreEntitySet="BA_Role">
+                <ScalarProperty Name="RepositoryConfigRoleId" ColumnName="RepositoryConfigRoleId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PermissionMask" ColumnName="PermissionMask" />
+                <ScalarProperty Name="AllowMultiple" ColumnName="AllowMultiple" />
+                <ScalarProperty Name="AllowPersons" ColumnName="AllowPersons" />
+                <ScalarProperty Name="AllowGroups" ColumnName="AllowGroups" />
+                <ScalarProperty Name="CanEditMetadata" ColumnName="CanEditMetadata" />
+                <ScalarProperty Name="CanAssignRoles" ColumnName="CanAssignRoles" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="SiteType_Id" ColumnName="SiteType_Id" />
+                <ScalarProperty Name="CanReadNoticeboard" ColumnName="CanReadNoticeboard" />
+                <ScalarProperty Name="CanWriteNoticeboard" ColumnName="CanWriteNoticeboard" />
+                <ScalarProperty Name="AddCurrentUserInNewForm" ColumnName="AddCurrentUserInNewForm" />
+                <ScalarProperty Name="CanBeDeleted" ColumnName="CanBeDeleted" />
+                <ScalarProperty Name="CanBeModified" ColumnName="CanBeModified" />
+                <ScalarProperty Name="InternalName" ColumnName="InternalName" />
+                <ScalarProperty Name="Instance_id" ColumnName="Instance_id" />
+                <ScalarProperty Name="HideOnDisplayForm" ColumnName="HideOnDisplayForm" />
+                <ScalarProperty Name="HideOnNewForm" ColumnName="HideOnNewForm" />
+                <ScalarProperty Name="HideOnEditForm" ColumnName="HideOnEditForm" />
+                <ScalarProperty Name="CanAddToOwnRole" ColumnName="CanAddToOwnRole" />
+                <ScalarProperty Name="CanRemoveFromOwnRole" ColumnName="CanRemoveFromOwnRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_Site">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_Site">
+              <MappingFragment StoreEntitySet="BA_Site">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="SharePointWebId" ColumnName="SharePointWebId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StatusLastChanged" ColumnName="StatusLastChanged" />
+                <ScalarProperty Name="SiteType_Id" ColumnName="SiteType_Id" />
+                <ScalarProperty Name="CurrentPhase_Id" ColumnName="CurrentPhase_Id" />
+                <ScalarProperty Name="StatusLastChangedBy_PrincipalId" ColumnName="StatusLastChangedBy_PrincipalId" />
+                <ScalarProperty Name="PropertyBag" ColumnName="PropertyBag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_SiteHistory">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_SiteHistory">
+              <MappingFragment StoreEntitySet="BA_SiteHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StatusSetTo" ColumnName="StatusSetTo" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Site_Id" ColumnName="Site_Id" />
+                <ScalarProperty Name="CreatedBy_PrincipalId" ColumnName="CreatedBy_PrincipalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_SiteRole">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_SiteRole">
+              <MappingFragment StoreEntitySet="BA_SiteRole">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Site_Id" ColumnName="Site_Id" />
+                <ScalarProperty Name="Role_RepositoryConfigRoleId" ColumnName="Role_RepositoryConfigRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_SiteRolePrincipals">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_SiteRolePrincipals">
+              <MappingFragment StoreEntitySet="BA_SiteRolePrincipals">
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="BA_SiteRoleId" ColumnName="BA_SiteRoleId" />
+                <ScalarProperty Name="BA_PrincipalPrincipalId" ColumnName="BA_PrincipalPrincipalId" />
+                <ScalarProperty Name="CreatedBy_PrincipalId" ColumnName="CreatedBy_PrincipalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_SiteType">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_SiteType">
+              <MappingFragment StoreEntitySet="BA_SiteType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="InstanceId" ColumnName="InstanceId" />
+                <ScalarProperty Name="SiteTemplatePath" ColumnName="SiteTemplatePath" />
+                <ScalarProperty Name="StartPhaseId" ColumnName="StartPhaseId" />
+                <ScalarProperty Name="MetadataFormDesign" ColumnName="MetadataFormDesign" />
+                <ScalarProperty Name="ApprovalEnabled" ColumnName="ApprovalEnabled" />
+                <ScalarProperty Name="AddDefaultAssociatedGroups" ColumnName="AddDefaultAssociatedGroups" />
+                <ScalarProperty Name="CreateDefaultAssociatedGroups" ColumnName="CreateDefaultAssociatedGroups" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA_SiteTypeMetadataDefinitions">
+            <EntityTypeMapping TypeName="Wizdom365Model.BA_SiteTypeMetadataDefinitions">
+              <MappingFragment StoreEntitySet="BA_SiteTypeMetadataDefinitions">
+                <ScalarProperty Name="BA_SiteTypeId" ColumnName="BA_SiteTypeId" />
+                <ScalarProperty Name="BA_MetadataDefinitionId" ColumnName="BA_MetadataDefinitionId" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="BA_InstanceBA_Principal" TypeName="Wizdom365Model.BA_InstanceBA_Principal" StoreEntitySet="BA_InstanceBA_Principal">
+            <EndProperty Name="BA_Instance">
+              <ScalarProperty Name="Id" ColumnName="SiteCreatorForInstances_Id" />
+            </EndProperty>
+            <EndProperty Name="BA_Principal">
+              <ScalarProperty Name="PrincipalId" ColumnName="SiteCreators_PrincipalId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="BA_InstancePrincipal" TypeName="Wizdom365Model.BA_InstancePrincipal" StoreEntitySet="BA_InstancePrincipal">
+            <EndProperty Name="BA_Instance">
+              <ScalarProperty Name="Id" ColumnName="AdministratorForInstances_Id" />
+            </EndProperty>
+            <EndProperty Name="BA_Principal">
+              <ScalarProperty Name="PrincipalId" ColumnName="Administrators_PrincipalId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="BA_PhaseAction" TypeName="Wizdom365Model.BA_PhaseAction" StoreEntitySet="BA_PhaseAction">
+            <EndProperty Name="BA_Action">
+              <ScalarProperty Name="Id" ColumnName="PreferedActions_Id" />
+            </EndProperty>
+            <EndProperty Name="BA_Phase">
+              <ScalarProperty Name="Id" ColumnName="PhaseAction_BA_Action_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="BA_PrincipalBA_Site" TypeName="Wizdom365Model.BA_PrincipalBA_Site" StoreEntitySet="BA_PrincipalBA_Site">
+            <EndProperty Name="BA_Principal">
+              <ScalarProperty Name="PrincipalId" ColumnName="FavouriteBy_PrincipalId" />
+            </EndProperty>
+            <EndProperty Name="BA_Site">
+              <ScalarProperty Name="Id" ColumnName="FavouriteSites_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="BA_RoleDefaultPrincipals" TypeName="Wizdom365Model.BA_RoleDefaultPrincipals" StoreEntitySet="BA_RoleDefaultPrincipals">
+            <EndProperty Name="BA_Principal">
+              <ScalarProperty Name="PrincipalId" ColumnName="DefaultPrincipals_PrincipalId" />
+            </EndProperty>
+            <EndProperty Name="BA_Role">
+              <ScalarProperty Name="RepositoryConfigRoleId" ColumnName="DefaultForRoles_RepositoryConfigRoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="BA_SiteTypeBA_Principal" TypeName="Wizdom365Model.BA_SiteTypeBA_Principal" StoreEntitySet="BA_SiteTypeBA_Principal">
+            <EndProperty Name="BA_Principal">
+              <ScalarProperty Name="PrincipalId" ColumnName="Approvers_PrincipalId" />
+            </EndProperty>
+            <EndProperty Name="BA_SiteType">
+              <ScalarProperty Name="Id" ColumnName="SiteTypesToApprove_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

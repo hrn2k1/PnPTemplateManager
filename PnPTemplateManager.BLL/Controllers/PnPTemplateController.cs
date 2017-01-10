@@ -1,6 +1,7 @@
 ﻿using PnPTemplateManager.Managers.Contracts;
 using PnPTemplateManager.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using PnPTemplateManager.Licensing;
 
@@ -37,6 +38,7 @@ namespace PnPTemplateManager.Controllers
         [HttpPost, Route("rambollsite")]
         public string ApplyRambollTemplateOnSite(ApplyRambollTemplateRequest request)
         {
+            request.AccessToken = Request.Headers.GetValues("WizdomSPToken").FirstOrDefault();
             return templateManager.ApplyRambollTemplateOnSite(request);
         }
         [HttpGet, Route("delete")]

@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.ActiveDirectory.GraphClient, Version=2.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.ActiveDirectory.GraphClient.2.1.0\lib\portable-net4+sl5+win+wpa+wp8\Microsoft.Azure.ActiveDirectory.GraphClient.dll</HintPath>
       <Private>True</Private>
@@ -139,6 +147,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
@@ -147,6 +156,8 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
@@ -170,6 +181,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BA_Action.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_App.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_Instance.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_Metadata.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_MetadataDefinition.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_Phase.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_Principal.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_Role.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_Site.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_SiteHistory.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_SiteRole.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_SiteRolePrincipals.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_SiteType.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BA_SiteTypeMetadataDefinitions.cs">
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\PnPTemplateController.cs" />
     <Compile Include="Licensing\LicenseValidator.cs" />
     <Compile Include="Licensing\SharePointContextFactory.cs" />
@@ -186,7 +239,9 @@
     <Compile Include="Managers\Ioc\Ioc.cs" />
     <Compile Include="Managers\Ioc\NinjectResolver.cs" />
     <Compile Include="Managers\Ioc\NinjectScope.cs" />
+    <Compile Include="Managers\MetadataManager.cs" />
     <Compile Include="Managers\PageProvisionManager.cs" />
+    <Compile Include="Managers\ReplaceVariablesStrategyProjectMetadata.cs" />
     <Compile Include="Managers\SiteColumnProvisionManager.cs" />
     <Compile Include="Models\ApplyPnPTemplateRequest.cs" />
     <Compile Include="Models\CreatePnPTemplateRequest.cs" />
@@ -196,10 +251,47 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharePointContext.cs" />
     <Compile Include="TokenHelper.cs" />
+    <Compile Include="Wizdom.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Wizdom.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Wizdom.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Wizdom.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Wizdom.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Wizdom.edmx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <EntityDeploy Include="Wizdom.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Wizdom.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Wizdom.edmx.diagram">
+      <DependentUpon>Wizdom.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Wizdom.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Wizdom.edmx</DependentUpon>
+      <LastGenOutput>Wizdom.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Wizdom.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Wizdom.edmx</DependentUpon>
+      <LastGenOutput>Wizdom.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

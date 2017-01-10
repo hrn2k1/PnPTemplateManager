@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c3c83473df6347bd87a4a28cfdcd326f" Name="Diagram1">
+        <EntityTypeShape EntityType="Wizdom365Model.BA_Action" Width="1.5" PointX="9.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_App" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_Instance" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_Metadata" Width="1.5" PointX="7.5" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_MetadataDefinition" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_Phase" Width="1.5" PointX="12" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_Principal" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_Role" Width="1.5" PointX="9.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_Site" Width="1.5" PointX="14.25" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_SiteHistory" Width="1.5" PointX="16.5" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_SiteRole" Width="1.5" PointX="16.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_SiteRolePrincipals" Width="1.5" PointX="18.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_SiteType" Width="1.5" PointX="7.5" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Wizdom365Model.BA_SiteTypeMetadataDefinitions" Width="1.5" PointX="7.5" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="Wizdom365Model.FK_SiteTypeAction" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_AppInstance" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_InstanceMetadataDefinition" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_InstanceSiteType" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_MetadataMetadataDefinition" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_SiteMetadata" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_MetadataDefinitionBA_SiteTypeMetadataDefinition" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_PhaseBA_Phase" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_SitePhase" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_SiteTypePhase" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_PrincipalBA_SiteRolePrincipal" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_SiteBA_Principal" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_SiteHistoryBA_Principal" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_PrincipalAddedToRoleBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_SiteRoleBA_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_SiteTypeRole" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_SiteBA_SiteHistory" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_SiteRoleBA_Site" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_SiteSiteType" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_SiteRoleBA_SiteRolePrincipal" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.FK_BA_SiteTypeBA_SiteTypeMetadataDefinition" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.BA_InstanceBA_Principal" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.BA_InstancePrincipal" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.BA_PhaseAction" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.BA_PrincipalBA_Site" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.BA_RoleDefaultPrincipals" ManuallyRouted="false" />
+        <AssociationConnector Association="Wizdom365Model.BA_SiteTypeBA_Principal" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -22,10 +22,10 @@ namespace PnPTemplateManager.Models
     public class ApplyRambollTemplateRequest
     {
         public string SiteUrl { get; set; }
+        public string WebId { get; set; }
         public string AccessToken { get; set; }
         public string PnPXML { get; set; }
 
-        public string ProjectNumber { get; set; }
         public string ApplyComponent { get; set; } 
 
     }

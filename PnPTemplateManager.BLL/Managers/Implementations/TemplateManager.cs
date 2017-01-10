@@ -281,6 +281,7 @@ namespace PnPTemplateManager.Managers.Implementations
                     using (
                         var context = TokenHelper.GetClientContextWithAccessToken(request.SiteUrl, request.AccessToken))
                     {
+
                         var fileSystemConnector = new FileSystemConnector(pnpTemplatePath, "");
                         XMLTemplateProvider provider =
                             new XMLOpenXMLTemplateProvider(new OpenXMLConnector(pnpPackageName, fileSystemConnector));
@@ -289,7 +290,7 @@ namespace PnPTemplateManager.Managers.Implementations
 
                         template.Connector = provider.Connector;
 
-                        RefineTemplate(context, template, ptai, request.ApplyComponent);
+                        RefineTemplate(context, template, ptai, request);
 
                         context.Web.ApplyProvisioningTemplate(template, ptai);
                         if (System.IO.File.Exists(tempFile))
@@ -311,7 +312,7 @@ namespace PnPTemplateManager.Managers.Implementations
 
                     using (var context = TokenHelper.GetClientContextWithAccessToken(request.SiteUrl, request.AccessToken))
                     {
-                        RefineTemplate(context, template, ptai);
+                        RefineTemplate(context, template, ptai, request);
                         context.Web.ApplyProvisioningTemplate(template, ptai);
 
                         return "{ \"IsSuccess\": true, \"Message\": \"PnP template has been applied successfully\" }";
@@ -325,23 +326,201 @@ namespace PnPTemplateManager.Managers.Implementations
                 return "{ \"IsSuccess\": false, \"Message\": \"PnP template apply failed, Error: " + ex.Message + "\" }";
             }
         }
+        private object GetMetadataValue(Guid webId, string metadataName)
+        {
+            try
+            {
+                MetadataManager metadataManager = new MetadataManager();
+                var metadataList = metadataManager.GetMetadataForSharePointWebId(webId);
+                var metadata = metadataList.FirstOrDefault(x => x.MetadataDefinition.Name.Equals(metadataName, StringComparison.InvariantCultureIgnoreCase));
+                return metadata?.Value;
+            }
+            catch (Exception ex)
+            {
 
+                return null;
+            }
+        }
+
+
+        private void RefineTemplate(ClientContext context, ProvisioningTemplate template, ProvisioningTemplateApplyingInformation ptai, ApplyRambollTemplateRequest request)
+        {
+            try
+            {
+                string type = request.ApplyComponent ?? "NotSet";
+                ptai.HandlersToProcess = Handlers.All;
+                switch (type?.ToUpper())
+                {
+                    /*case "PRE":
+                        template.Files.RemoveAll(x => true);
+                        template.Navigation = null;
+                        break;
+                    case "POST":
+                        template.Lists.RemoveAll(x => true);
+                        template.SiteFields.RemoveAll(x => true);
+                        template.ContentTypes.RemoveAll(x => true);
+                        break;
+                    case "INIT":
+                        template.Files.RemoveAll(x => true);
+                        template.Lists.RemoveAll(x => true);
+                        template.Navigation = null;
+                        break;
+                    case "LISTS":
+                        template.Files.RemoveAll(x => true);
+                        template.Navigation = null;
+                        break;
+                    case "FILES":
+                        template.Lists.RemoveAll(x => true);
+                        template.Navigation = null;
+                        break;
+                    case "NAVIGATION":
+                        template.Files.RemoveAll(x => true);
+                        template.Lists.RemoveAll(x => true);
+                        break;*/
+                    case "PRE":
+                        ptai.HandlersToProcess = Handlers.All & ~Handlers.Files & ~Handlers.Navigation;
+                        break;
+                    case "POST":
+                        ptai.HandlersToProcess = Handlers.All & ~Handlers.Lists & ~Handlers.Fields & ~Handlers.ContentTypes;
+                        break;
+                    case "INIT":
+                        ptai.HandlersToProcess = Handlers.All & ~Handlers.PropertyBagEntries & ~Handlers.Features & ~Handlers.Files & ~Handlers.Lists & ~Handlers.Navigation;
+                        break;
+                    case "PROPERTYBAGENTRIES":
+                        ptai.HandlersToProcess = Handlers.All &  ~Handlers.Features & ~Handlers.Files & ~Handlers.Lists & ~Handlers.Navigation;
+                        break;
+                    case "FEATURES":
+                        ptai.HandlersToProcess = Handlers.All & ~Handlers.PropertyBagEntries & ~Handlers.Files & ~Handlers.Lists & ~Handlers.Navigation;
+                        break;
+                    case "LISTS":
+                        ptai.HandlersToProcess = Handlers.All & ~Handlers.PropertyBagEntries & ~Handlers.Features & ~Handlers.Files & ~Handlers.Navigation;
+                        break;
+                    case "FILES":
+                        ptai.HandlersToProcess = Handlers.All & ~Handlers.PropertyBagEntries & ~Handlers.Features & ~Handlers.Lists & ~Handlers.Navigation;
+                        break;
+                    case "NAVIGATION":
+                        ptai.HandlersToProcess = Handlers.All & ~Handlers.PropertyBagEntries & ~Handlers.Features & ~Handlers.Files & ~Handlers.Lists;
+                        break;
+
+                }
+                var web = context.Web;
+                if (type?.ToUpper() == "PROPERTYBAGENTRIES")
+                {
+                    string docIdPrefix = "";
+                    docIdPrefix = GetMetadataValue(new Guid(request.WebId), "Project number")?.ToString();
+                    if (!string.IsNullOrEmpty(docIdPrefix))
+                        SetDocumentId(context, web, docIdPrefix);
+                }
+                else if (type?.ToUpper() == "FILES")
+                {
+
+                    var defaultPage = "default.aspx";
+                    var siteUri = new Uri(request.SiteUrl);
+                    string tenantUrl = $"{siteUri.Scheme}://{siteUri.Host}";
+                    if (!siteUri.IsDefaultPort)
+                        tenantUrl = $"{tenantUrl}:{siteUri.Port}";
+                    context.Load(context.Web, w => w.CurrentUser);
+                    context.ExecuteQueryRetry();
+                    var loginName = context.Web?.CurrentUser?.LoginName; //?.Split('|').LastOrDefault();
+
+                    foreach (var file in template.Files)
+                    {
+                        if (file.Src.Equals(defaultPage, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            string projectName = "";
+                            projectName = GetMetadataValue(new Guid(request.WebId), "Project name")?.ToString();
+                            file.Properties["Title"] = projectName;
+                        }
+
+                        if (file.Properties.ContainsKey("_dlc_DocIdUrl"))
+                        {
+                            var docIdUrl = file.Properties["_dlc_DocIdUrl"];
+                            if (!string.IsNullOrEmpty(docIdUrl))
+                                file.Properties["_dlc_DocIdUrl"] = docIdUrl.Replace("{tenant}", tenantUrl);
+                        }
+                        if (!string.IsNullOrEmpty(loginName))
+                        {
+                            if (file.Properties.ContainsKey("PublishingContact"))
+                            {
+                                file.Properties["PublishingContact"] = loginName;
+                            }
+                            else
+                            {
+                                file.Properties.Add("PublishingContact", loginName);
+                            }
+                        }
+                    }
+                }
+                var isSubSite = web.IsSubSite();
+                if (isSubSite)
+                {
+
+                    var tokenParser = new TokenParser(web, template);
+                    if (template.SiteFields.Any())
+                    {
+                        var columnProvisionManager = new SiteColumnProvisionManager();
+                        columnProvisionManager.Provision(web, template, tokenParser, ptai);
+                    }
+                    if (template.ContentTypes.Any())
+                    {
+                        var contentTypeProvisionManager = new ContentTypeProvisionManager();
+                        contentTypeProvisionManager.Provision(web, template, tokenParser, ptai);
+                    }
+                    template.Files.RemoveAll(
+                        f => f.Src.EndsWith(".master", StringComparison.InvariantCultureIgnoreCase));
+                }
+                var pageLib = context.Web.GetPagesLibrary();
+
+                if (template.Files.Any())
+                {
+                    foreach (var file in template.Files)
+                    {
+                        if (file.Src.EndsWith(".aspx"))
+                        {
+                            file.Src = $"{pageLib.Title}\\{file.Src}";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private void RefineTemplate(ClientContext context, ProvisioningTemplate template, ProvisioningTemplateApplyingInformation ptai, string type = "NotSet", string docIdPrefix = "")
         {
             try
             {
 
-                switch (type.ToUpper())
+                switch (type?.ToUpper())
                 {
                     case "PRE":
-                        template.Lists.RemoveAll(x => true);
-                        template.SiteFields.RemoveAll(x => true);
-                        template.ContentTypes.RemoveAll(x => true);
+                        template.Files.RemoveAll(x => true);
                         template.Navigation = null;
                         break;
                     case "POST":
-                        template.Files.RemoveAll(x => true);
+                        template.Lists.RemoveAll(x => true);
+                        template.SiteFields.RemoveAll(x => true);
+                        template.ContentTypes.RemoveAll(x => true);
                         break;
+                    case "INIT":
+                        template.Files.RemoveAll(x => true);
+                        template.Lists.RemoveAll(x => true);
+                        template.Navigation = null;
+                        break;
+                    case "LISTS":
+                        template.Files.RemoveAll(x => true);
+                        template.Navigation = null;
+                        break;
+                    case "FILES":
+                        template.Lists.RemoveAll(x => true);
+                        template.Navigation = null;
+                        break;
+                    case "NAVIGATION":
+                        template.Files.RemoveAll(x => true);
+                        template.Lists.RemoveAll(x => true);
+                        break;
+
                 }
                 var web = context.Web;
                 if (!string.IsNullOrEmpty(docIdPrefix))
